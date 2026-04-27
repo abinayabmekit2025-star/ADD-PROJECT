@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Voting System</title>
+    <style>
+        body {
+            font-family: Arial;
+            background-color: #f2f2f2;
+            text-align: center;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            width: 350px;
+            margin: auto;
+            margin-top: 50px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+        button {
+            padding: 10px;
+            margin-top: 10px;
+            width: 100%;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Online Voting System</h2>
+
+    <form id="voteForm">
+        <label><input type="radio" name="candidate" value="Candidate A"> Candidate A</label><br>
+        <label><input type="radio" name="candidate" value="Candidate B"> Candidate B</label><br>
+        <label><input type="radio" name="candidate" value="Candidate C"> Candidate C</label><br>
+
+        <button type="submit">Vote</button>
+    </form>
+
+    <button onclick="showResults()">Show Results</button>
+
+    <div class="result" id="result"></div>
+</div>
+
+<script>
+    // Initialize votes
+    if (!localStorage.getItem("votes")) {
+        let votes = {
+            "Candidate A": 0,
+            "Candidate B": 0,
+            "Candidate C": 0
+        };
+        localStorage.setItem("votes", JSON.stringify(votes));
+    }
+
+    document.getElementById("voteForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+
+        // Check if user already voted
+        if (localStorage.getItem("voted")) {
+            alert("You have already voted!");
+            return;
+        }
+
+        let selected = document.querySelector('input[name="candidate"]:checked');
+
+        // Form validation
+        if (!selected) {
+            alert("Please select a candidate!");
+            return;
+        }
+
+        let votes = JSON.parse(localStorage.getItem("votes"));
+        votes[selected.value]++;
+
+        localStorage.setItem("votes", JSON.stringify(votes));
+        localStorage.setItem("voted", true);
+
+        alert("Vote submitted successfully!");
+    });
+
+    function showResults() {
+        let votes = JSON.parse(localStorage.getItem("votes"));
+        let resultDiv = document.getElementById("result");
+
+        resultDiv.innerHTML = `
+            <h3>Results:</h3>
+            Candidate A: ${votes["Candidate A"]} votes <br>
+            Candidate B: ${votes["Candidate B"]} votes <br>
+            Candidate C: ${votes["Candidate C"]} votes <br>
+        `;
+    }
+</script>
+
+</body>
+</html>
