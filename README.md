@@ -1,1 +1,1 @@
-# ADD-PROJECT
+A simple and interactive Online Voting System built using HTML5, CSS, and JavaScript. This project simulates the basic functionality of a digital voting platform and helps in understanding how online voting interfaces work.
